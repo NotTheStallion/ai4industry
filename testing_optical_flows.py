@@ -44,7 +44,7 @@ def process_video_with_optical_flow(video_path, start_time, end_time, flow_metho
             break
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        flow = flow_method(prev_frame, frame, flow)
+        flow = flow_method(prev_frame, frame, None)
 
         # magnitude, angle = cv2.cartToPolar(flow[..., 0], flow[..., 1])
         # hsv = np.zeros_like(frame)

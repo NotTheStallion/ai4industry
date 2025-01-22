@@ -134,4 +134,7 @@ fabric.properties
 .history
 .ionide
 
+frame_*.jpg
+
+__pycache__/
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,pycharm
