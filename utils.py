@@ -77,5 +77,5 @@ def progress_video(name="test.mp4"):
         video.write(cv.imread(img[i]))
 
     video.release()
-    !ffmpeg -y -i temp_nca.mp4 $name -loglevel quiet
-    !rm -f temp_nca.mp4
+    os.system("ffmpeg -y -i temp_nca.mp4 $name -loglevel quiet")
+    os.system("rm -f temp_nca.mp4")
