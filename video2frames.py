@@ -2,13 +2,13 @@ import cv2
 import os
 
 # Chemin de la vidéo
-video_path = "data/FoxP2_#25_090322_6OHDA_20Hz_GP_comp.MP4"
+video_path = "data/test.mp4"
 # Dossier où les frames seront sauvegardées
-output_folder = "FoxP2_#25_090322_6OHDA_20Hz_GP_comp"
+output_folder = "test"
 
 # Timecodes en secondes (par exemple, 5 minutes = 300 secondes, 6 min 30 = 390 secondes)
-start_time = 5 * 60 + 53.5  # 5 minutes 46 (en secondes)
-end_time = 5 * 60 + 57  # 6 minutes (en secondes)
+start_time = 10  # 5 minutes 46 (en secondes)
+end_time = 17  # 6 minutes (en secondes)
 
 # Créez le dossier de sortie s'il n'existe pas
 if not os.path.exists(output_folder):

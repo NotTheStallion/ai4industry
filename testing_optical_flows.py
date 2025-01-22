@@ -1,11 +1,11 @@
 import os
 import cv2
 import numpy as np
+import os
 from utils import *
 
 def process_video_with_optical_flow(video_path, start_time, end_time, live_display=True):
     cap = cv2.VideoCapture(video_path)
-
     if not cap.isOpened():
         print("Error: Could not open video.")
         return
@@ -74,6 +74,6 @@ def process_video_with_optical_flow(video_path, start_time, end_time, live_displ
 
 if __name__ == "__main__":
     video_path = "data/test.mp4"
-    start_time = 0
-    end_time = 3
+    start_time = 12
+    end_time = 14   
     process_video_with_optical_flow(video_path, start_time, end_time, live_display=False)

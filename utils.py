@@ -1,4 +1,7 @@
 import cv2 as cv
+import os
+
+
 
 def farneback_optical_flow(frame1, frame2, prev_flow=None):
     """Compute dense optical flow using Farneback method."""
@@ -42,3 +45,37 @@ def dis_optical_flow(frame1, frame2, prev_flow=None):
     dis = cv.optflow.createOptFlow_DIS(cv.optflow.DISOPTICAL_FLOW_PRESET_FAST)
     flow = dis.calc(gray1, gray2, prev_flow)
     return flow
+
+
+
+def progress_video(name="test.mp4"):
+    """
+    Create a video from the images saved in the steps/ folder."""
+    path = "steps/"
+    out_video_name = "temp_nca.mp4"
+    out_video_full_path = out_video_name
+
+    pre_imgs = os.listdir(path)
+    pre_imgs.sort()
+    img = []
+    for i in pre_imgs:
+        i = path + i
+        img.append(i)
+
+    cv2_fourcc = cv.VideoWriter_fourcc(*"mp4v")
+
+    frame = cv.imread(img[0])
+    size = list(frame.shape)
+    del size[2]
+    size.reverse()
+
+    video = cv.VideoWriter(
+        out_video_full_path, cv2_fourcc, 24, size
+    )  # output video name, fourcc, fps, size
+
+    for i in range(len(img)):
+        video.write(cv.imread(img[i]))
+
+    video.release()
+    os.system("ffmpeg -y -i temp_nca.mp4 $name -loglevel quiet")
+    os.system("rm -f temp_nca.mp4")
