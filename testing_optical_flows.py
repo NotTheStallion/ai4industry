@@ -82,7 +82,7 @@ def process_video_with_optical_flow(video_path, start_time, end_time):
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    video_path = "data/FoxP2_#25_090322_6OHDA_20Hz_GP_comp.MP4"
+    video_path = "data/test.MP4"
     start_time = 350
     end_time = 400
 
