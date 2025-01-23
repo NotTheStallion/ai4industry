@@ -12,6 +12,17 @@ def farneback_optical_flow(frame1, frame2, prev_flow=None):
     )
     return flow
 
+def cuda_farneback_optical_flow(frame1, frame2, prev_flow=None):
+    """Compute dense optical flow using Farneback method on GPU."""
+    gray1 = cv.cuda_GpuMat()
+    gray1.upload(cv.cvtColor(frame1, cv.COLOR_BGR2GRAY))
+    gray2 = cv.cuda_GpuMat()
+    gray2.upload(cv.cvtColor(frame2, cv.COLOR_BGR2GRAY))
+    flow = cv.cuda.FarnebackOpticalFlow.create(
+        0.5, 5, 50, 3, 7, 1.5, 0
+    ).calc(gray1, gray2, prev_flow)
+    return flow.download()
+
 def pcaflow_optical_flow(frame1, frame2, prev_flow=None):
     """Compute dense optical flow using PCAFlow."""
     gray1 = cv.cvtColor(frame1, cv.COLOR_BGR2GRAY)
@@ -48,10 +59,9 @@ def dis_optical_flow(frame1, frame2, prev_flow=None):
 
 
 
-def progress_video(name="test.mp4"):
+def progress_video(path="test_flows/deepflow_optical_flow/",name="test.mp4"):
     """
     Create a video from the images saved in the steps/ folder."""
-    path = "steps/"
     out_video_name = "temp_nca.mp4"
     out_video_full_path = out_video_name
 
@@ -65,6 +75,7 @@ def progress_video(name="test.mp4"):
     cv2_fourcc = cv.VideoWriter_fourcc(*"mp4v")
 
     frame = cv.imread(img[0])
+
     size = list(frame.shape)
     del size[2]
     size.reverse()
@@ -77,5 +88,9 @@ def progress_video(name="test.mp4"):
         video.write(cv.imread(img[i]))
 
     video.release()
-    os.system("ffmpeg -y -i temp_nca.mp4 $name -loglevel quiet")
+    os.system(f"ffmpeg -y -i temp_nca.mp4 {name} -loglevel quiet")
     os.system("rm -f temp_nca.mp4")
+
+
+if __name__=="__main__":
+    progress_video(path="test_flows/farneback_optical_flow/",name="test_flows_FrnBk.mp4")
