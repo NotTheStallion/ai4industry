@@ -29,13 +29,6 @@ def deepflow_optical_flow(prev_gray, gray):
 def process_video_with_optical_flow(video_path, output_dir, optical_flow_method, method_name, display_flow=True):
     """
     Traite une vidéo, calcule les flux optiques pour toute la vidéo et les sauvegarde dans un dossier spécifique.
-
-    Parameters:
-    - video_path: chemin vers la vidéo
-    - output_dir: dossier de sortie pour les flux optiques
-    - optical_flow_method: méthode pour calculer le flux optique (fonction)
-    - method_name: nom de la méthode (pour créer un dossier spécifique)
-    - display_flow: booléen, afficher ou non les flux optiques
     """
     cap = cv2.VideoCapture(video_path)
     if not cap.isOpened():
@@ -96,11 +89,6 @@ def process_video_with_optical_flow(video_path, output_dir, optical_flow_method,
 def process_video_folder(input_folder, output_folder, display_flow=False):
     """
     Parcourt un dossier de vidéos, calcule les flux optiques avec plusieurs méthodes pour chacune et les sauvegarde.
-
-    Parameters:
-    - input_folder: dossier contenant les vidéos
-    - output_folder: dossier où sauvegarder les flux optiques
-    - display_flow: booléen, afficher ou non les flux optiques
     """
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)

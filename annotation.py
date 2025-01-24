@@ -1,24 +1,22 @@
 import os
 import json
 
-# Chemin vers le dossier contenant les frames
+# dossier de frames
 frames_folder = "/home/cbanide/ai4industry/test_flows/farneback_optical_flow"
 
-# Labels pour les annotations
+# Labels 
 label_first_half = "normal"
 label_second_half = "ill"
 
-# Fréquence des frames (par exemple, 30 fps)
+# FPS
 frame_rate = 30
 
-# Charger et trier les frames
-frames = sorted(os.listdir(frames_folder))  # Trier pour garantir l'ordre temporel
+frames = sorted(os.listdir(frames_folder))  
 
-# Calculer le seuil de séparation entre les deux labels
 num_frames = len(frames)
-half_frame = num_frames // 2  # Séparer en deux périodes égales
+half_frame = num_frames // 2  
 
-# Générer les annotations
+# annotations
 annotations = {}
 for idx, frame_name in enumerate(frames):
     if idx < half_frame:
@@ -26,7 +24,7 @@ for idx, frame_name in enumerate(frames):
     else:
         annotations[frame_name] = label_second_half
 
-# Sauvegarder les annotations dans un fichier JSON
+
 annotations_file = os.path.join(frames_folder, "annotations.json")
 with open(annotations_file, "w") as f:
     json.dump(annotations, f, indent=4)

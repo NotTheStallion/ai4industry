@@ -89,9 +89,8 @@ def process_and_cluster_flows(
         if len(flow_dirs) != len(mask_dirs):
             raise ValueError("Le nombre de dossiers de flux et de masques doit correspondre.")
 
-        groups_per_video = {}  # Pour stocker le nombre de groupes par vidéo
-
-        #  Entraînement de IncrementalPCA
+        groups_per_video = {}  
+        
         print("Entraînement de IncrementalPCA...")
         ipca = IncrementalPCA(n_components=n_components, batch_size=batch_size)
 
