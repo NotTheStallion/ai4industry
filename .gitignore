@@ -27,6 +27,19 @@
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
+     
+# Ignorer les fichiers MP4
+*.mp4
+*.MP4
+
+# Ignorer les fichiers OGG
+*.ogg
+*.OGG
+
+# Ignorer les fichiers d'images
+*.jpg
+*.JPG
+*.png
 
 # Gradle
 .idea/**/gradle.xml
@@ -134,7 +147,5 @@ fabric.properties
 .history
 .ionide
 
-frame_*.jpg
-
-__pycache__/
+.__pycache__/
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,pycharm

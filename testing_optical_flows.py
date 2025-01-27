@@ -91,7 +91,7 @@ def process_video_with_optical_flow(video_path, start_time, end_time, flow_metho
 
 if __name__ == "__main__":
     video_path = "data/test.mp4"
-    start_time = 12
+    start_time = 10
     end_time = 14
     display_flow = False
 
