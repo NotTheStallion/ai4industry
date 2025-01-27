@@ -1,6 +1,6 @@
 import cv2 as cv
 import os
-
+import numpy as np
 
 
 def farneback_optical_flow(frame1, frame2, prev_flow=None):
@@ -92,5 +92,79 @@ def progress_video(path="test_flows/deepflow_optical_flow/",name="test.mp4"):
     os.system("rm -f temp_nca.mp4")
 
 
+def read_frames(directory):
+    frames = []
+    for filename in sorted(os.listdir(directory)):
+        if filename.endswith((".jpg", ".png")):
+            img = cv.imread(os.path.join(directory, filename))
+            if img is not None:
+                frames.append(img)
+    return frames
+
+
+def read_flow(filename):
+        flow = cv.readOpticalFlow(filename)
+        if flow is None:
+            return None
+        flow = flow[..., :2]
+        return flow
+
+
+def read_flows(directory):
+    flows = []
+    for filename in sorted(os.listdir(directory)):
+        if filename.endswith(".flo"):
+            flow = read_flow(os.path.join(directory, filename))
+            if flow is not None:
+                flows.append(flow)
+    return flows
+
+
+def write_flow(flow, filename):
+    cv.writeOpticalFlow(filename, flow)
+
+
+def flow2bgr(flow):
+    h, w = flow.shape[:2]
+    hsv = np.zeros((h, w, 3), dtype=np.uint8)
+    hsv[..., 1] = 255
+
+    mag, ang = cv.cartToPolar(flow[..., 0], flow[..., 1])
+    hsv[..., 0] = ang * 180 / np.pi / 2
+    hsv[..., 2] = cv.normalize(mag, None, 0, 255, cv.NORM_MINMAX)
+    bgr = cv.cvtColor(hsv, cv.COLOR_HSV2BGR)
+
+    # cv.imshow('Optical Flow', bgr)
+    return bgr
+
+
+def compute_ae(flow1, flow2):
+    return np.mean(np.abs(flow1 - flow2))
+
+
+def compute_epe(flow1, flow2):
+    return np.mean(np.linalg.norm(flow1 - flow2, axis=-1))
+
+
+def compute_mse(frame1, frame2):
+    return np.mean((frame1 - frame2) ** 2)
+
+
+def project(frame, flow):
+    h, w = frame.shape[:2]
+    flow_map = np.zeros_like(frame)
+
+    for y in range(h):
+        for x in range(w):
+            dx, dy = flow[y, x]
+            new_x = int(x + dx)
+            new_y = int(y + dy)
+
+            if 0 <= new_x < w and 0 <= new_y < h:
+                flow_map[new_y, new_x] = frame[y, x]
+
+    return flow_map
+
+
 if __name__=="__main__":
-    progress_video(path="test_flows/farneback_optical_flow/",name="test_flows_FrnBk.mp4")
+    progress_video(path="test_flows/farneback_optical_flow/",name="test_flows_DPFLW.mp4")
